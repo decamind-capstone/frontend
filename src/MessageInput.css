@@ -1,0 +1,37 @@
+.message-input {
+    display: flex;
+    align-items: center;
+}
+
+.message-input input {
+    flex: 1;
+    padding: 10px;
+    font-size:14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.message-input input:focus {
+    border-color: #0078d7;
+}
+
+.message-input button {
+    margin-left: 10px;
+    padding: 6px 8px;
+    color: white;
+    background-color: #0078d7;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.sendimg {
+    width: 21px;
+    height: auto;
+}
+
+.message-input button:hover {
+    background-color: #005ea6;
+}

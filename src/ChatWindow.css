@@ -1,0 +1,89 @@
+.chat-window {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+}
+
+.fixed-question {
+    top: 0;
+    position: sticky;
+}
+.fixed-question .question {
+    margin-top: 5px;
+}
+
+.chat-window.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-chat-message {
+    font-size: 60px;
+    color: #aaa;
+    text-align: center;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-message {
+    max-width: 85%;
+    border: 1px solid #7fb7e4;
+    color: black;
+    padding: 5px;
+    border-radius: 10px;
+    text-align: left;
+    align-self: flex-end;
+}
+
+.bot-message {
+    max-width: 85%;
+    color: black;
+    border-radius: 10px;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.favorite-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 26px;
+    font-size: 16px;
+    background: none;
+    align-self: flex-start;
+    border:none;
+    border-radius: 10px;
+    cursor:pointer;
+}
+
+.favorite-btn:hover {
+    background-color: #eeeeee;
+}
+
+.favorite-btn.favorited {
+    background: none;
+    color: rgb(255, 221, 0);
+    font-size: 16px;
+}
+
+.favorite-btn.favorited:hover {
+    background-color: #eeeeee;
+}
+
+.response-image {
+    width: 500px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.formatted-text {
+    white-space: pre;
+    white-space: pre-line;
+}
