@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./../src/Sidebar.css"
 import { AiOutlineMore } from "react-icons/ai";
 import { BsPencilSquare } from "react-icons/bs";
@@ -24,6 +24,19 @@ const Sidebar = ({
     const toggleFavorites = () => {
         setFavoritesOpen(!favoritesOpen);
     };
+    
+    useEffect(() => {
+        if (activeMenuIndex === null) return;
+
+        const handleDocumentClick = (event) => {
+            setActiveMenuIndex(null);
+        };
+
+        document.addEventListener("click", handleDocumentClick);
+        return () => {
+            document.removeEventListener("click", handleDocumentClick);
+        };
+    }, [activeMenuIndex]);
 
     return (
         <div className="sidebar">

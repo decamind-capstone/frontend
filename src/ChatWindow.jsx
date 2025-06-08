@@ -1,6 +1,7 @@
 import React, {forwardRef, useEffect} from "react";
 import "./ChatWindow.css"
 import { FaRegStar, FaStar  } from "react-icons/fa6";
+import { FaRegCopy } from "react-icons/fa6";
 
 
 const ChatWindow = forwardRef(({ messages, onFavorite, favorites }, ref) => {
@@ -12,6 +13,15 @@ const ChatWindow = forwardRef(({ messages, onFavorite, favorites }, ref) => {
         });
     }
 }, [messages.length]);
+
+    const handleCopy = async (copyText) => {
+        try {
+            await navigator.clipboard.writeText(copyText);
+            alert("답변이 복사되었습니다");
+        } catch (error) {
+            console.error("복사 실패", error);
+        }
+    };
 
     return (
         <div className={`chat-window ${messages.length === 0 ? "empty": ""}`}>
@@ -35,14 +45,23 @@ const ChatWindow = forwardRef(({ messages, onFavorite, favorites }, ref) => {
                         >
                         <div className="user-message"> {message.question} </div>
                         <div className="bot-message"> 
-                            <p>{message.answer?.text}</p> 
+                            <p>{message.answer?.text}</p>
+                            <div className="btn-col">
+                                <button
+                                    className={`favorite-btn ${isFavorite ? "favorited" : ""}`}
+                                    onClick={() => onFavorite(message)}
+                                > {isFavorite ?  <FaStar className="star"/> : <FaRegStar />} 
+                                </button>
+                                <button
+                                    className="copy-btn"
+                                    onClick={() => handleCopy(message.answer?.text)}
+                                > <FaRegCopy/> 
+                                </button>
+                            </div> 
+                            
                         </div>
-                        <button
-                            className={`favorite-btn ${isFavorite ? "favorited" : ""}`}
-                            onClick={() => onFavorite(message)}
-                        > 
-                            {isFavorite ?  <FaStar className="star"/> : <FaRegStar />} 
-                        </button>
+                        
+                        
                     </div>
                     );
                 })

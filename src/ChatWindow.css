@@ -49,6 +49,11 @@
     text-align: left;
     align-self: flex-start;
 }
+.btn-col {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 .favorite-btn {
     display: flex;
@@ -62,20 +67,28 @@
     border-radius: 10px;
     cursor:pointer;
 }
-
-.favorite-btn:hover {
-    background-color: #eeeeee;
-}
+.favorite-btn:hover { background-color: #eeeeee; }
 
 .favorite-btn.favorited {
     background: none;
     color: rgb(255, 221, 0);
     font-size: 16px;
 }
+.favorite-btn.favorited:hover { background-color: #eeeeee; }
 
-.favorite-btn.favorited:hover {
-    background-color: #eeeeee;
+.copy-btn {
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 26px;
+    font-size: 16px;
+    background: none;
+    align-self: flex-start;
+    border:none;
+    border-radius: 10px;
+    cursor:pointer;
 }
+.copy-btn:hover { background-color: #eeeeee; }
 
 .response-image {
     width: 500px;

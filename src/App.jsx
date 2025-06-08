@@ -55,7 +55,6 @@ const fetchHistory = async (convId) => {
     const response = await fetch(
       `${API_HISTORY}?conversationId=${convId}&limit=100&offset=0`
     );
-    // 응답이 404이면 빈 배열 반환 (애플리케이션 로직에서 에러 처리 없이)
     if (response.status === 404) {
       console.warn("채팅 기록이 없습니다 (404). 빈 기록으로 처리합니다.");
       return [];
@@ -65,7 +64,7 @@ const fetchHistory = async (convId) => {
     }
     const data = await response.json();
     console.log("✅ 채팅 기록 조회 성공:", data);
-    // data.success가 true이어도 data.response가 null인 경우 빈 배열 반환
+    
     if (data.success) {
       return data.response ? 
         data.response.map((chat) => ({
@@ -215,13 +214,7 @@ const fetchHistory = async (convId) => {
       console.log("✅ 챗봇 응답 성공: ", data);
       
       if (data.success) {
-        let updatedConversations = [...conversations];
-
-        const idx = updatedConversations.findIndex(
-          (conv) => conv.conversationId == data.response.conversationId
-        );
-        if (idx !== -1) {
-          const newMsg = {
+        const newMsg = {
             question: message,
             answer: {
               text: data.response.answer,
@@ -229,16 +222,25 @@ const fetchHistory = async (convId) => {
             },
             createdAt: data.response.createdAt,
           };
+        let updatedConversations = [...conversations];
+
+        const idx = updatedConversations.findIndex(
+          (conv) => conv.conversationId == data.response.conversationId
+        );
+        if (idx !== -1) {
+          
           updatedConversations[idx].messages.push(newMsg);
         } else {
           const newConversation = {
             conversationId: data.response.conversationId,
-            title: currentConv ? currentConv.title : "New Conversation",
+            title: currentConv ? currentConv.title : "새로운 대화",
             messages: [newMsg],
             favorites: []
           };
           updatedConversations.push(newConversation);
           setSelectedConversation(updatedConversations.length - 1);
+          fetchedHistoryMap.current[data.response.conversationId] = true;
+
         }
         const history = await fetchHistory(data.response.conversationId);
         updatedConversations = updatedConversations.map((conv) => 
