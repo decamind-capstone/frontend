@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import "./../src/Sidebar.css"
-import { AiOutlineMore } from "react-icons/ai";
+import { AiOutlineMore, AiOutlineUp, AiOutlineDown } from "react-icons/ai";
 import { BsPencilSquare } from "react-icons/bs";
 
 
@@ -15,7 +15,7 @@ const Sidebar = ({
     onScrollToMessage,
 }) => {
     const [activeMenuIndex, setActiveMenuIndex] = useState(null);
-    const [favoritesOpen, setFavoritesOpen] = useState(true);
+    const [favoritesOpen, setFavoritesOpen] = useState(false);
 
     const toggleMenu = (index) => {
         setActiveMenuIndex((prev) => (prev === index ? null : index));
@@ -44,7 +44,7 @@ const Sidebar = ({
                 <div className="favorites-header">
                     찜 목록
                     <button className="favorites-toggle-btn" onClick={toggleFavorites}>
-                        {favoritesOpen ? "▲" : "▼" }
+                        {favoritesOpen ? <AiOutlineUp /> : <AiOutlineDown /> }
                     </button>
                 </div>
                 <div className="favorite-list">
