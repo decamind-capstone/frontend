@@ -57,7 +57,7 @@ const Sidebar = ({
                             className="favorite-item"
                             onClick={() => onScrollToMessage(fav)}
                             >
-                            {fav.question}
+                            <span className="favorite-title">{fav.question}</span>
                         </div>
                     ))
                     ) : (

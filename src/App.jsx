@@ -196,8 +196,33 @@ const fetchHistory = async (convId) => {
   };
 
   const handleSendMessage = async (message) => {
-    const currentConv = conversations[selectedConversation];
+    let updatedConversations;
+
+      if (conversations.length === 0) {
+    const draftConversation = {
+      conversationId: null,
+      title: "새로운 대화",
+      messages: [],
+      favorites: []
+    };
+    updatedConversations = [draftConversation];
+    setConversations(updatedConversations);
+    setSelectedConversation(0);
+  } else {
+    updatedConversations = [...conversations];
+  }
+
+    const currentConv = updatedConversations[selectedConversation];
     const convId = currentConv ? currentConv.conversationId : null;
+
+    const placeholderMsg = {
+      question: message,
+      answer: {text: "답변 준비중입니다...", sources: [] },
+      createdAt: new Date().toISOString(),
+    };
+
+    updatedConversations[selectedConversation].messages.push(placeholderMsg);
+    setConversations(updatedConversations);
 
     try {
       const response = await fetch(API_ASK, {
@@ -222,33 +247,33 @@ const fetchHistory = async (convId) => {
             },
             createdAt: data.response.createdAt,
           };
-        let updatedConversations = [...conversations];
+          let updatedConversations2 = [...updatedConversations];
+          if (convId) {
+            let updatedConversations2 = [...updatedConversations];
+            updatedConversations2[selectedConversation].messages[
+              updatedConversations2[selectedConversation].messages.length -1
+            ] = newMsg;
+            setConversations(updatedConversations2);
+          } else {
+        // 새 대화(드래프트)인 경우: 백엔드로부터 새 conversationId를 받아 드래프트 업데이트 후 처리합니다.
+            updatedConversations2[selectedConversation].conversationId = data.response.conversationId;
+            updatedConversations2[selectedConversation].messages[
+              updatedConversations2[selectedConversation].messages.length - 1
+            ] = newMsg;
+            setConversations(updatedConversations2);
+      }
 
-        const idx = updatedConversations.findIndex(
-          (conv) => conv.conversationId == data.response.conversationId
-        );
-        if (idx !== -1) {
-          
-          updatedConversations[idx].messages.push(newMsg);
-        } else {
-          const newConversation = {
-            conversationId: data.response.conversationId,
-            title: currentConv ? currentConv.title : "새로운 대화",
-            messages: [newMsg],
-            favorites: []
-          };
-          updatedConversations.push(newConversation);
-          setSelectedConversation(updatedConversations.length - 1);
-          fetchedHistoryMap.current[data.response.conversationId] = true;
 
-        }
+
+        
+
         const history = await fetchHistory(data.response.conversationId);
         updatedConversations = updatedConversations.map((conv) => 
           conv.conversationId === data.response.conversationId 
             ? {...conv, messages: history}
             : conv
         );
-        setConversations(updatedConversations);
+        setConversations(updatedConversations2);
       } else {
         throw new Error(data.error || "질문 전송 실패");
       }
